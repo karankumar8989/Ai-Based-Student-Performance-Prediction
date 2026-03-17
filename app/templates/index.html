@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Performance Predictor | Premium Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Student Performance Analysis</h1>
+        <p class="subtitle">Enter academic metrics to predict final examination scores using advanced local machine learning models.</p>
+        
+        <form action="/predict" method="post">
+            <div class="input-group">
+                <label for="hours">Study Hours / Week</label>
+                <input type="number" id="hours" name="hours" step="0.1" min="0" max="168" placeholder="e.g. 45" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="attendance">Attendance rate (%)</label>
+                <input type="number" id="attendance" name="attendance" step="0.1" min="0" max="100" placeholder="e.g. 95" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="previous">Previous Mock Score</label>
+                <input type="number" id="previous" name="previous" step="0.1" min="0" max="100" placeholder="e.g. 78" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="assignments">Average Assignments Grade</label>
+                <input type="number" id="assignments" name="assignments" step="0.1" min="0" max="100" placeholder="e.g. 82" required>
+            </div>
+            
+            <div class="btn-container">
+                <button type="submit">Analyze & Predict</button>
+            </div>
+        </form>
+
+        {% if result %}
+        <div class="result-card">
+            <h3>Predicted Exam Performance</h3>
+            <div class="result-score">{{ result }}</div>
+            {% if category %}
+                <div class="category cat-{{ category.lower() }}">{{ category }}</div>
+            {% endif %}
+            <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+                Based on current study patterns and historical performance metrics.
+            </p>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="result-card" style="border-color: #ef4444;">
+            <h3 style="color: #ef4444;">Analysis Error</h3>
+            <p style="margin-top: 1rem; color: var(--text-muted);">{{ error }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
